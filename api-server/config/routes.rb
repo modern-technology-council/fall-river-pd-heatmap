@@ -1,4 +1,6 @@
 FallRiverHeatmapApi::Application.routes.draw do
+  resources :misspellings
+
   resources :police_actions
 
   devise_for :admin_users, ActiveAdmin::Devise.config
