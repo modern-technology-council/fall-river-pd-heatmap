@@ -50,6 +50,7 @@ gem 'simple_form', '>= 3.0.0.rc'
 gem 'thin'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'geocoder', '~> 1.1.8'
+gem 'carrierwave', '~> 0.9.0'
 
 group :development do
   gem 'better_errors'

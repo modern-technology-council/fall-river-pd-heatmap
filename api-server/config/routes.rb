@@ -1,4 +1,6 @@
 FallRiverHeatmapApi::Application.routes.draw do
+  resources :call_logs
+
   resources :misspellings
 
   resources :police_actions

@@ -66,6 +66,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.9.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
     coderay (1.1.0)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -130,6 +134,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (4.0.5)
       railties (>= 3.1.0)
+    json (1.8.0)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -235,6 +240,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass (~> 2.3.2.2)
   capybara
+  carrierwave (~> 0.9.0)
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   email_spec

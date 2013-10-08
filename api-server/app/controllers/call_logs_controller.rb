@@ -1,0 +1,2 @@
+class CallLogsController < ApplicationController
+end
