@@ -22,13 +22,29 @@ Map.prototype.init = function(callback) {
 	};
 	inits();
 	self.map = map
-	var mcOptions = {gridSize: 50, maxZoom: 15};
-	var markerCluseter = new MarkerClusterer(map) //, [], mcOptions)
+	var mcOptions = {zoomOnClick: false};
+	var markerCluseter = new MarkerClusterer(map, [], mcOptions)
+	google.maps.event.addListener(markerCluseter, 'clusterclick', function(cluster) {
+		console.log(this);
+		console.log(cluster);
+		var info = new google.maps.MVCObject;
+		info.set('position', cluster.center_);
+
+		var infowindow = new google.maps.InfoWindow({maxHeight: 500, autoScroll: true});
+		content = '<div style="max-height: 300px; overflow-y: auto;">'
+		for (i in cluster.markers_) {
+			content += '<h3>' + cluster.markers_[i].title + '</h3><p>Address: ' + cluster.markers_[i].displayadder + '</p>'
+		}
+		content += '</div>'
+		console.log(content);
+		infowindow.setContent(content)
+		infowindow.open(self.map, info);
+	})
 	geocoder = new google.maps.Geocoder();
 	latlngbounds = new google.maps.LatLngBounds();
 	showAddress = function(desc, add, showadd, lat, lng) {
-		console.log(add)
 		if (lng === null || lng === void 0) {
+			console.log('desc ' + desc);
 			if (add !== '') {
 				return geocoder.geocode({
 					address: add + ' Fall River, MA'
@@ -39,7 +55,6 @@ Map.prototype.init = function(callback) {
 						content: '<h3>' + desc + '</h3><p>Address: ' + showadd + '</p>'
 					});
 					loc = res[0].geometry.location;
-					console.log(loc)
 					marker = new google.maps.Marker({
 						map: map,
 						animation: google.maps.Animation.DROP,
@@ -63,7 +78,8 @@ Map.prototype.init = function(callback) {
 			}
 		}
 		else {
-			infowindow = new google.maps.InfoWindow({
+			console.log(desc + ' ' + showadd);
+			var infowindow = new google.maps.InfoWindow({
 				content: '<h3>' + desc + '</h3><p>Address: ' + showadd + '</p>'
 			});
 			var myCenter=new google.maps.LatLng(lat, lng);
@@ -72,6 +88,7 @@ Map.prototype.init = function(callback) {
 				animation: google.maps.Animation.DROP,
 				position: myCenter,
 				title: desc,
+				displayadder: showadd
 			});
 			latlngbounds.extend(marker.getPosition());
 			google.maps.event.addListener(marker, 'click', (function(marker) {
@@ -85,9 +102,10 @@ Map.prototype.init = function(callback) {
 			return map.fitBounds(latlngbounds);
 		}
 	};
-	$.getJSON('logs/Call_log_9_21_13.json', function(json) {
-		incidents = json.log
+	$.getJSON('/police_actions.json', function(json) {
+		incidents = json
 		i = 1;
+		console.log(json)
 		$.each(incidents, function(key, value) {
 			showAddress(value.description, value.addr, value.displayaddr, value.lat, value.lng);
 		});
@@ -99,6 +117,12 @@ Map.prototype.init = function(callback) {
 return Map;
 
 })();
-map = new Map()
-map.init(function() {
-})
+$(document).ready( function(){
+	map = new Map()
+	map.init(function() {
+	})
+	$('#customModal').hide();
+	$('#daterange .custom').on('click', function(){
+		$('#customModal').slideToggle('slow');
+	});
+});
