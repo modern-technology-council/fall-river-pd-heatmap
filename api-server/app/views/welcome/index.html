@@ -2,17 +2,35 @@
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
-    </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="https://google-maps-utility-library-v3.googlecode.com/svn-history/r360/trunk/markerclustererplus/src/markerclusterer.js"></script>
+    <link href="assets/main.css" rel="stylesheet"/>
   </head>
   <body>
   <div id="map-canvas"></div>
-    <script src="assets/main.js" type="text/javascript"></script>
+  <div id="daterange">
+    <span>Pick your date range: </span>
+    <select class="presets">
+      <option value="0">Today</option>
+      <option value='1'>This Week</option>
+      <option value='2'>This Month</option>
+      <option value='3'>Last 3 Months</option>
+    </select>
+    <button class="custom">Custom</button>
+  </div>
+  <div id="customModal">
+    <label><span>From: </span><input type="date" class="from"></input></label>
+    <label><span>To: </span> <input type="date" class="to"></input></label>
+    <div>
+     <button class="submit">Submit</button>
+    </div>
+  </div>
+  <div id="modernTechCouncil">
+    <a href="http://alt236.org" target="_blank">
+      <img src="assets/mtc.png"></img>
+    </a>
+  </div>
+  <script src="assets/main.js" type="text/javascript"></script>
   </body>
 </html>
