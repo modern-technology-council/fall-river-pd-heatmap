@@ -7,13 +7,8 @@ class CallLog < ActiveRecord::Base
     log_data.pages.each do |page|
       page = page.text
       page = page.gsub(/rall River.+\n.+/, '').gsub(/^[\s]*$\n/, '')
-      date = nil
-      if page =~ /For\sDate:\s([^\s]+)/
-        p $1
-        date = $1
-      end
       page.scan(/\s[0-9]+\s(.+)\n.+Add.ess\s*:\s*(.+)/) do |desc, addr|
-        event = PoliceAction.new
+        event = PoliceAction.new action_datetime: call_log.for_date
         event.action_datetime =  DateTime.parse(date) rescue nil
         event.description = desc
         event.address = addr.gsub(/IFAL/, '[FAL').gsub(/^.+\-\s*/, '').gsub(/apt.+$/i, '').gsub(/\[.+\]/, '').strip + ' Fall River, MA'
@@ -23,6 +18,7 @@ class CallLog < ActiveRecord::Base
         if coords.present?
           event.lon = coords[0].longitude
           event.lat = coords[0].latitude
+          event.reverse_geocoded_address = coords[0].address
         end
         event.save
       end

@@ -1,0 +1,10 @@
+%table.table.table-striped
+  %thead
+    %tr
+      - PoliceAction.content_columns.each do |col|
+        %th= col.name.titleize
+  %tbody
+    - PoliceAction.all.each do |pa|
+      %tr
+        - pa.class.content_columns.each do |col|
+          %td= pa[col.name]
