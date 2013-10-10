@@ -8,8 +8,8 @@ class CallLog < ActiveRecord::Base
       page = page.text
       page = page.gsub(/rall River.+\n.+/, '').gsub(/^[\s]*$\n/, '')
       page.scan(/\s[0-9]+\s(.+)\n.+Add.ess\s*:\s*(.+)/) do |desc, addr|
-        event = PoliceAction.new action_datetime: call_log.for_date
-        event.action_datetime =  DateTime.parse(date) rescue nil
+        event = PoliceAction.new
+        event.action_datetime = call_log.for_date
         event.description = desc
         event.address = addr.gsub(/IFAL/, '[FAL').gsub(/^.+\-\s*/, '').gsub(/apt.+$/i, '').gsub(/\[.+\]/, '').strip + ' Fall River, MA'
         event.display_address = addr.gsub(/IFAL/, '[FAL')
