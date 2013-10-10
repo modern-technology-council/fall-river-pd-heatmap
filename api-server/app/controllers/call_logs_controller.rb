@@ -1,2 +1,0 @@
-class CallLogsController < ApplicationController
-end
