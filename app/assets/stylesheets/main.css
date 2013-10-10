@@ -1,0 +1,44 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map-canvas { height: 100% }
+#daterange {
+	position: absolute;
+	background: rgba(255, 255, 255, 0.75);
+	right: 30px;
+	top: 30px;
+	padding: 5px;
+	border: 1px solid #C9C9C9;
+}
+
+#daterange .custom, #customModal .submit {
+	border: 1px solid lightgrey;
+	background: #D6D6D6; 
+}
+
+#daterange .custom:hover, #daterange .custom:active, #customModal .submit:hover, #customModal .submit:active {
+	background: #C9C9C9; 
+}
+
+#customModal {
+ position: absolute;
+	background: rgba(255, 255, 255, 0.75);
+ top: 70px;
+ right: 30px;
+ padding: 5px;
+ border: 1px solid lightgrey;
+}
+#customModal label { display: block;  text-align: right; padding: 5px; }
+
+#customModal div {
+	text-align: right;
+	padding: 5px;
+}
+#modernTechCouncil {
+	position: absolute;
+	bottom: 15px;
+	width: 200px;
+	text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+	right: 30px;
+	border: 1px solid lightgrey;
+}

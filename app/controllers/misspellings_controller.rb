@@ -1,0 +1,2 @@
+class MisspellingsController < ApplicationController
+end
