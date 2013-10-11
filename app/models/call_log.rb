@@ -1,6 +1,6 @@
 class CallLog < ActiveRecord::Base
   mount_uploader :filename, CallLogUploader
-  after_save :extract_actions
+  after_save :enqueue_extract_action_job
 
   def self.parse(call_log)
     log_data = PDF::Reader.new call_log.filename.file.file
@@ -25,11 +25,14 @@ class CallLog < ActiveRecord::Base
     end
   end
 
-  protected
-
   def extract_actions
     CallLog.parse self
   end
 
+  protected
+
+  def enqueue_extract_action_job
+    CallLogParseJob.create :call_log_id => id
+  end
   
 end
