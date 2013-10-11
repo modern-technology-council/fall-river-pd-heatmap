@@ -5,7 +5,7 @@ function Map(id) {
 	this.markers = []
 }
 
-Map.prototype.init = function(callback) {
+Map.prototype.init = function(start_date, callback) {
 	var geocoder, inits, latlngbounds, map, self, showAddress;
 	$('body').removeClass('container');
 	map = null;
@@ -102,7 +102,13 @@ Map.prototype.init = function(callback) {
 			return map.fitBounds(latlngbounds);
 		}
 	};
-	$.getJSON('/police_actions.json', function(json) {
+  if(start_date != '') {
+    var query = '/police_actions.json?start_date' + start_date;
+  }
+  else {
+    var query = '/police_actions.json';
+  }
+	$.getJSON(query, function(json) {
 		incidents = json
 		i = 1;
 		console.log(json)
@@ -125,4 +131,11 @@ $(document).ready( function(){
 	$('#daterange .custom').on('click', function(){
 		$('#customModal').slideToggle('slow');
 	});
+
+  $('.presets').change(function() {
+    $('#map-canvas').innerHTML = '';
+    map.init($('.presets').val(),function() {});
+  });
+
+
 });
