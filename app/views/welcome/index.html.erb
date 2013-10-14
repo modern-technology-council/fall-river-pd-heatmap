@@ -9,24 +9,31 @@
   </head>
   <body>
   <div id="map-canvas"></div>
-  <div id="daterange">
-    <span>Pick your date range: </span>
-    <select class="presets">
-      <option value="<%= DateTime.now.strftime('%Y%m%d') %>">Today</option>
-      <option value='<%= 1.week.ago.strftime('%Y%m%d') %>'>This Week</option>
-      <option value='<%= 1.month.ago.strftime('%Y%m%d') %>'>This Month</option>
-      <option value='<%= 3.months.ago.strftime('%Y%m%d') %>'>Last 3 Months</option>
-    </select>
-    <button class="custom">Custom</button>
+  <div id="top-ten" class="right-options">
+    <a href="/#top_ten">View top 10 in selected date range (if any)</a>
   </div>
-  <div id="customModal">
+  <div id="daterange" class="right-options">
+    <div>
+      <span>Pick your date range: </span>
+      <select class="presets">
+        <option value="<%= DateTime.now.strftime('%Y%m%d') %>">Today</option>
+        <option value='<%= 1.week.ago.strftime('%Y%m%d') %>'>This Week</option>
+        <option value='<%= 1.month.ago.strftime('%Y%m%d') %>'>This Month</option>
+        <option value='<%= 3.months.ago.strftime('%Y%m%d') %>'>Last 3 Months</option>
+      </select>
+    </div>
+    <div class="right">
+      <button class="custom">Custom</button>
+    </div>
+  </div>
+  <div id="customModal" class="right-options">
     <label><span>From: </span><input type="date" class="from"></input></label>
     <label><span>To: </span> <input type="date" class="to"></input></label>
     <div>
      <button id="dateRangeSubmit" class="submit">Submit</button>
     </div>
   </div>
-  <div id="modernTechCouncil">
+  <div id="modernTechCouncil" class="right-options">
     <a href="http://alt236.org" target="_blank">
       <img src="assets/mtc.png"></img>
     </a>

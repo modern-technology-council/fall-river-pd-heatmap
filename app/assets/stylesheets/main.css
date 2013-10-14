@@ -1,11 +1,22 @@
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
+
+.right-options {
+	right: 30px;
+}
+
 #map-canvas { height: 100% }
+#top-ten {
+	position: absolute;
+	top: 30px;
+	padding: 5px;
+	border: 1px solid #C9C9C9;
+	background: #D6D6D6;
+}
 #daterange {
 	position: absolute;
 	background: rgba(255, 255, 255, 0.75);
-	right: 30px;
-	top: 30px;
+	top: 70px;
 	padding: 5px;
 	border: 1px solid #C9C9C9;
 }
@@ -15,6 +26,7 @@ body { height: 100%; margin: 0; padding: 0 }
 	background: #D6D6D6; 
 }
 
+
 #daterange .custom:hover, #daterange .custom:active, #customModal .submit:hover, #customModal .submit:active {
 	background: #C9C9C9; 
 }
@@ -22,8 +34,8 @@ body { height: 100%; margin: 0; padding: 0 }
 #customModal {
  position: absolute;
 	background: rgba(255, 255, 255, 0.75);
- top: 70px;
- right: 30px;
+ top: 130px;
+ /*right: 30px;*/
  padding: 5px;
  border: 1px solid lightgrey;
 }
@@ -39,6 +51,6 @@ body { height: 100%; margin: 0; padding: 0 }
 	width: 200px;
 	text-align: center;
   background: rgba(255, 255, 255, 0.75);
-	right: 30px;
+	/*right: 30px;*/
 	border: 1px solid lightgrey;
 }
