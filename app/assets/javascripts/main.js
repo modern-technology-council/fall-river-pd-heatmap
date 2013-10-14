@@ -5,7 +5,11 @@ function Map(id) {
 	this.markers = []
 }
 
-Map.prototype.init = function(start_date, callback) {
+Map.prototype.clear = function() {
+  $('#map-canvas').innerHTML = '';
+};
+
+Map.prototype.init = function(start_date, end_date, callback) {
 	var geocoder, inits, latlngbounds, map, self, showAddress;
 	$('body').removeClass('container');
 	map = null;
@@ -15,7 +19,7 @@ Map.prototype.init = function(start_date, callback) {
 	self.markers = []
 	mapOptions = {
 		zoom: 8,
-		center: new google.maps.LatLng(-34.397, 150.644),
+		center: new google.maps.LatLng(41.67, -71.17),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	return map = new google.maps.Map($('#map-canvas')[0], mapOptions);
@@ -25,8 +29,8 @@ Map.prototype.init = function(start_date, callback) {
 	var mcOptions = {zoomOnClick: false};
 	var markerCluseter = new MarkerClusterer(map, [], mcOptions)
 	google.maps.event.addListener(markerCluseter, 'clusterclick', function(cluster) {
-		console.log(this);
-		console.log(cluster);
+		//console.log(this);
+		//console.log(cluster);
 		var info = new google.maps.MVCObject;
 		info.set('position', cluster.center_);
 
@@ -36,7 +40,7 @@ Map.prototype.init = function(start_date, callback) {
 			content += '<h3>' + cluster.markers_[i].title + '</h3><p>Address: ' + cluster.markers_[i].displayadder + '</p>'
 		}
 		content += '</div>'
-		console.log(content);
+		//console.log(content);
 		infowindow.setContent(content)
 		infowindow.open(self.map, info);
 	})
@@ -44,7 +48,7 @@ Map.prototype.init = function(start_date, callback) {
 	latlngbounds = new google.maps.LatLngBounds();
 	showAddress = function(desc, add, showadd, lat, lng) {
 		if (lng === null || lng === void 0) {
-			console.log('desc ' + desc);
+			//console.log('desc ' + desc);
 			if (add !== '') {
 				return geocoder.geocode({
 					address: add + ' Fall River, MA'
@@ -78,7 +82,7 @@ Map.prototype.init = function(start_date, callback) {
 			}
 		}
 		else {
-			console.log(desc + ' ' + showadd);
+			//console.log(desc + ' ' + showadd);
 			var infowindow = new google.maps.InfoWindow({
 				content: '<h3>' + desc + '</h3><p>Address: ' + showadd + '</p>'
 			});
@@ -102,8 +106,12 @@ Map.prototype.init = function(start_date, callback) {
 			return map.fitBounds(latlngbounds);
 		}
 	};
+  var query = '/police_actions.json?';
   if(start_date != '') {
-    var query = '/police_actions.json?start_date' + start_date;
+    var query = query + 'start_date=' + start_date + '&';
+  }
+  if(end_date != '') {
+    var query = query + 'end_date=' + end_date;
   }
   else {
     var query = '/police_actions.json';
@@ -111,7 +119,7 @@ Map.prototype.init = function(start_date, callback) {
 	$.getJSON(query, function(json) {
 		incidents = json
 		i = 1;
-		console.log(json)
+    //console.log(json)
 		$.each(incidents, function(key, value) {
 			showAddress(value.description, value.addr, value.displayaddr, value.lat, value.lng);
 		});
@@ -119,23 +127,39 @@ Map.prototype.init = function(start_date, callback) {
 	});
 };
 
+Map.prototype.format_date_string = function(d) {
+  if(isNaN(d)){
+    return '';
+  }
+  else {
+    return d.getUTCFullYear() + (d.getUTCMonth() < 9 ? '0' : '') + (d.getUTCMonth() + 1) + (d.getUTCDate() < 10 ? '0' : '') + d.getUTCDate();
+  }
+}
 
 return Map;
-
 })();
+
+
 $(document).ready( function(){
-	map = new Map()
-	map.init(function() {
-	})
+	global_map = new Map();
+	global_map.init('','')
 	$('#customModal').hide();
 	$('#daterange .custom').on('click', function(){
 		$('#customModal').slideToggle('slow');
 	});
 
   $('.presets').change(function() {
-    $('#map-canvas').innerHTML = '';
-    map.init($('.presets').val(),function() {});
+    global_map.clear();
+    global_map = new Map();
+    global_map.init($('.presets').val(),'');
   });
 
-
+  $('#dateRangeSubmit').click(function() {
+    global_map.clear();
+    var start_date = new Date($('.from').val());
+    var end_date = new Date($('.to').val());
+    global_map = new Map();
+    global_map.init(global_map.format_date_string(start_date), global_map.format_date_string(end_date));
+  });
 });
+

@@ -1,6 +1,8 @@
 require "resque_web"
 
 FallRiverHeatmapApi::Application.routes.draw do
+  resources :filtered_terms
+
   get 'welcome/index'
   resources :call_logs
 

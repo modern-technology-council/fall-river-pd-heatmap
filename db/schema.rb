@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131009174011) do
+ActiveRecord::Schema.define(version: 20131014203949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,12 @@ ActiveRecord::Schema.define(version: 20131009174011) do
   create_table "call_logs", force: true do |t|
     t.date     "for_date"
     t.string   "filename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "filtered_terms", force: true do |t|
+    t.text     "key_phrase"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
