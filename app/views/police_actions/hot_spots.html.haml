@@ -1,0 +1,10 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th= "Address"
+      %th= "Count"
+  %tbody
+    - @hot_spots.each do |row|
+      %tr
+        %td= row[0]
+        %td= row[1]

@@ -13,4 +13,8 @@ class PoliceActionsController < ApplicationController
     end
       
   end
+
+  def hot_spots
+    @hot_spots = PoliceAction.count(:all, :group => :reverse_geocoded_address).sort_by {|arr| -arr[1]}
+  end
 end

@@ -1,3 +1,5 @@
+require "resque_web"
+
 FallRiverHeatmapApi::Application.routes.draw do
   get 'welcome/index'
   resources :call_logs
@@ -5,9 +7,12 @@ FallRiverHeatmapApi::Application.routes.draw do
   resources :misspellings
 
   resources :police_actions
+  get 'hot_spots', to: 'police_actions#hot_spots'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+
+  mount ResqueWeb::Engine => "/resque_web"
   
   root to: 'welcome#index'
   # The priority is based upon order of creation: first created -> highest priority.

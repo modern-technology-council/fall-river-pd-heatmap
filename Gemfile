@@ -54,6 +54,7 @@ gem 'carrierwave', '~> 0.9.0'
 gem 'pdf-reader', '~> 1.3.3'
 gem 'resque', '~> 1.25.1'
 gem 'resque-status', '~> 0.4.1'
+gem 'resque-web', require: 'resque_web'
 
 
 group :development do
