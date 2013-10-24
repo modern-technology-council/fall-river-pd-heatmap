@@ -15,7 +15,7 @@ class PoliceActionsController < ApplicationController
   end
 
   def nuisance_properties
-    @police_actions = PoliceAction.visible.suspicious.find_in_datetime_range(1.month.ago, DateTime.now).having('COUNT(*) > 2').count(:all, :group => :reverse_geocoded_address)
+    @police_actions = PoliceAction.visible.suspicious.occurred_between(1.month.ago, DateTime.now).having('COUNT(*) > 2').count(:all, :group => :reverse_geocoded_address)
   end
 
 end
