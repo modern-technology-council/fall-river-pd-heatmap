@@ -1,6 +1,6 @@
 class PoliceAction < ActiveRecord::Base
 
-  scope :suspicious, where("lower(replace(description,' ','')) not in (?)",\
+  scope :suspicious, -> { where("lower(replace(description,' ','')) not in (?)",\
       ['Service Run', 
         'Citizen Needs Info', 
         'Detail Long Term', 
@@ -21,6 +21,9 @@ class PoliceAction < ActiveRecord::Base
         'Fuel',
         'Continued Investigation by U D',
         'Auto Accident Unknown Injury'].map{|r| r.gsub(/\s/,'').downcase})
+  }
+
+  scope :visible, -> { where(:visible => true) }
 
   def self.find_in_datetime_range(start_datetime, end_datetime)
     PoliceAction.where :action_datetime => start_datetime..end_datetime
