@@ -1,7 +1,7 @@
 class PoliceAction < ActiveRecord::Base
 
   scope :suspicious, -> do 
-    where("lower(replace(description,' ','')) not in (?)", FilteredTerm.all.pluck(&:canonical_form))
+    where("lower(replace(description,' ','')) not in (?)", FilteredTerm.all.pluck(&:key_phrase))
   end
 
   scope :visible, -> { where(:visible => true) }
