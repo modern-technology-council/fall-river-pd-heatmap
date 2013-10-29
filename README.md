@@ -17,7 +17,7 @@ In order to manage the server and workers we use foreman, to install foreman use
 
 To start the application run `foreman start`
 
-Contributors
-Matthew Madonna
-Vanessa Soares
-Joshua Rumbut
+Contributors:
+- Matthew Madonna
+- Vanessa Soares
+- Joshua Rumbut
