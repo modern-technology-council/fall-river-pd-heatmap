@@ -163,5 +163,11 @@ $(document).ready( function(){
     global_map = new Map();
     global_map.init(global_map.format_date_string(start_date), global_map.format_date_string(end_date));
   });
+
+  $('.refresh_map').click(function() {
+     global_map.clear();
+     global_map = new Map();
+     global_map.init();
+  });
 });
 
