@@ -56,6 +56,11 @@ gem 'resque', '~> 1.25.1'
 gem 'resque-status', '~> 0.4.1'
 gem 'resque-web', require: 'resque_web'
 
+#for caching on prod
+gem 'kgio'
+gem 'dalli'
+
+
 
 group :development do
   gem 'better_errors'
