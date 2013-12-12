@@ -1,31 +1,32 @@
 class PoliceAction < ActiveRecord::Base
 
-  scope :suspicious, -> { where("lower(replace(description,' ','')) not in (?)",\
-      ['Service Run', 
-        'Citizen Needs Info', 
-        'Detail Long Term', 
-        'Citizen Provides Info', 
-        'Business/pharmacy/bank check',
-        'Detail Short Term',
-        'Car Wash',
-        'coffee Break',
-        'Lunch',
-        'school Traffic Post',
-        'Auto Accident',
-        'Parking Violations',
-        'Illness - Assist FRFD',
-        'Officer in Station',
-        'Notification',
-        'Vehicle Stop',
-        'Report Writing',
-        'Fuel',
-        'Continued Investigation by U D',
-        'Auto Accident Unknown Injury'].map{|r| r.gsub(/\s/,'').downcase}) }
-
   scope :top_addresses, -> { count(:group => :reverse_geocoded_address).sort_by {|arr| -arr[1]} }
 
-  def self.find_in_datetime_range(start_datetime, end_datetime)
-    PoliceAction.where :action_datetime => start_datetime..end_datetime
+  scope :suspicious, -> do 
+    where("lower(replace(description,' ','')) not in (?)", 
+          FilteredTerm.all.pluck(:key_phrase).map{|r| r.gsub(/\s/,'').downcase})
+  end
+
+  scope :visible, -> { where(:visible => true) }
+
+  scope :occurred_between, -> (start_datetime, end_datetime) do
+    where :action_datetime => start_datetime..end_datetime
+  end
+
+  scope :filtered_addresses, -> { where("reverse_geocoded_address NOT IN (?)",
+                                        ['685 Pleasant Street, Fall River, MA 02723, USA',
+                                          'Fall River, MA, USA'])}
+
+  scope :at_nuisance_property, -> do
+    count_table = <<-SQL
+      INNER JOIN (
+        SELECT COUNT(*) AS count_all, lat, lon
+        FROM police_actions
+        GROUP BY lat, lon
+        HAVING COUNT(*) > 2
+      ) p_a ON p_a.lat = police_actions.lat AND p_a.lon = police_actions.lon
+    SQL
+    joins(count_table).order('p_a.count_all DESC')
   end
 
 end

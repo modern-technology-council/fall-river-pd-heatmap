@@ -10,6 +10,8 @@ FallRiverHeatmapApi::Application.routes.draw do
 
   resources :police_actions
   get 'hot_spots', to: 'police_actions#hot_spots'
+  get 'nuisance_properties', to: 'police_actions#nuisance_properties'
+  post 'update_commercial', to: 'police_actions#set_visible'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

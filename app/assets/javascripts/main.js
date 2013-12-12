@@ -107,14 +107,16 @@ Map.prototype.init = function(start_date, end_date, callback) {
 		}
 	};
   var query = '/police_actions.json?';
+  console.log(window.location.hash);
+  console.log(window.location.hash.substring(1));
+  if(window.location.hash) {
+    query = query + ('filter=' + window.location.hash.substring(1) + '&');
+  }
   if(start_date != '') {
-    var query = query + 'start_date=' + start_date + '&';
+    query = query + 'start_date=' + start_date + '&';
   }
   if(end_date != '') {
-    var query = query + 'end_date=' + end_date;
-  }
-  else {
-    var query = '/police_actions.json';
+    query = query + 'end_date=' + end_date;
   }
 	$.getJSON(query, function(json) {
 		incidents = json
@@ -160,6 +162,12 @@ $(document).ready( function(){
     var end_date = new Date($('.to').val());
     global_map = new Map();
     global_map.init(global_map.format_date_string(start_date), global_map.format_date_string(end_date));
+  });
+
+  $('.refresh_map').click(function() {
+     global_map.clear();
+     global_map = new Map();
+     global_map.init();
   });
 });
 

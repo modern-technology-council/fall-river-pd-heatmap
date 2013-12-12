@@ -9,8 +9,19 @@
   </head>
   <body>
   <div id="map-canvas"></div>
-  <div id="top-ten" class="right-options">
-    <a href="/#top_ten">View top 10 in selected date range (if any)</a>
+  <div id="daterange">
+    <a class="refresh_map" href="/">Show all properties</a>
+    <br />
+    <a class="refresh_map" href="/#nuisance">Show only those properties with more than 3 calls</a>
+    <br />
+    <span>Pick your date range: </span>
+    <select class="presets">
+      <option value="<%= DateTime.now.strftime('%Y%m%d') %>">Today</option>
+      <option value='<%= 1.week.ago.strftime('%Y%m%d') %>'>This Week</option>
+      <option value='<%= 1.month.ago.strftime('%Y%m%d') %>'>This Month</option>
+      <option value='<%= 3.months.ago.strftime('%Y%m%d') %>'>Last 3 Months</option>
+    </select>
+    <button class="custom">Custom</button>
   </div>
   <div id="daterange" class="right-options">
     <div>
