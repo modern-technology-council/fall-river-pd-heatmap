@@ -5,8 +5,9 @@ class PoliceActionsController < ApplicationController
   end
 
   def index
-    start_date = params['start_date'].present? ? DateTime.strptime(params['start_date'], '%Y%m%d') : DateTime.strptime('0', '%s')
-    end_date = params['end_date'].present? ?  DateTime.strptime(params['end_date'], '%Y%m%d') : DateTime.strptime('3000', '%Y')
+    #little bit of a hack to speed development, if there's a problem with the dates just ignore them
+    start_date = params['start_date'].present? ? DateTime.strptime(params['start_date'], '%Y%m%d') : DateTime.strptime('0', '%s') rescue DateTime.strptime('0', '%s')
+    end_date = params['end_date'].present? ?  DateTime.strptime(params['end_date'], '%Y%m%d') : DateTime.strptime('3000', '%Y') rescue DateTime.strptime('3000', '%Y')
     if(params[:filter] == 'nuisance')
       ng_police_actions = PoliceAction.filtered_addresses.visible.suspicious.occurred_between(start_date, end_date).at_nuisance_property
       addrs = {}

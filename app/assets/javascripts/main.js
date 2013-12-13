@@ -13,21 +13,24 @@ Map.prototype.init = function(start_date, end_date, callback) {
 	var geocoder, inits, latlngbounds, map, self, showAddress;
 	$('body').removeClass('container');
 	map = null;
+
 	inits = function() {
-	var mapOptions;
-	self = this;
-	self.markers = []
-	mapOptions = {
+	  var mapOptions;
+	  self = this;
+	  self.markers = []
+	  mapOptions = {
 		zoom: 8,
 		center: new google.maps.LatLng(41.67, -71.17),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	  return map = new google.maps.Map($('#map-canvas')[0], mapOptions);
 	};
-	return map = new google.maps.Map($('#map-canvas')[0], mapOptions);
-	};
+
 	inits();
+
 	self.map = map
 	var mcOptions = {zoomOnClick: false};
-	var markerCluseter = new MarkerClusterer(map, [], mcOptions)
+	var markerCluseter = new MarkerClusterer(map, [], mcOptions);
 	google.maps.event.addListener(markerCluseter, 'clusterclick', function(cluster) {
 		//console.log(this);
 		//console.log(cluster);
@@ -43,11 +46,12 @@ Map.prototype.init = function(start_date, end_date, callback) {
 		//console.log(content);
 		infowindow.setContent(content)
 		infowindow.open(self.map, info);
-	})
+	});
 	geocoder = new google.maps.Geocoder();
 	latlngbounds = new google.maps.LatLngBounds();
 	showAddress = function(desc, add, showadd, lat, lng) {
 		if (lng === null || lng === void 0) {
+                        console.log("in the lat/lon null block");
 			//console.log('desc ' + desc);
 			if (add !== '') {
 				return geocoder.geocode({
@@ -107,8 +111,6 @@ Map.prototype.init = function(start_date, end_date, callback) {
 		}
 	};
   var query = '/police_actions.json?';
-  console.log(window.location.hash);
-  console.log(window.location.hash.substring(1));
   if(window.location.hash) {
     query = query + ('filter=' + window.location.hash.substring(1) + '&');
   }
